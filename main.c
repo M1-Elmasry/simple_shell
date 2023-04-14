@@ -6,30 +6,30 @@
 
 int main(int ac, char **av, char **env)
 {
-    int chars;
-    size_t buff_size = 0;
-    char *prompt = "=>> ";
-    char *buffer = NULL;
-    char *tok;
-    char **tokens;
+	int chars;
+	size_t buff_size = 0;
+	char *prompt = "=>> ";
+	char *buffer = NULL;
+	char *tok;
+	char **tokens;
 
 	while (1)
 	{
 		printf("%s", prompt);
 		chars = getline(&buffer, &buff_size, stdin);
 
-        /* handle EOF */
+		/* handle EOF */
 		if (chars < 0)
 		{
 			return (0);
 		}
 
-        tok = strtok(buffer , " \n");
+		tok = strtok(buffer , " \n");
 
-        tokens = extract_args(tok);
+		tokens = extract_args(tok);
 
 		execute(tokens, av[0]);
 	}
-    return 0;
+	return 0;
 }
 
