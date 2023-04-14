@@ -6,29 +6,29 @@
 
 char **extract_args(char *tok)
 {
-    int i, n_args = 0;
-    char **args = NULL;
-        
+	int i, n_args = 0;
+	char **args = NULL;
+
 	if (!tok)
 	{
 		return (0);
 	}
 
-    while (tok == NULL)
-    {
-        n_args++;
-        tok = strtok(NULL, " \n");
-    }
-    
-    args = calloc(n_args + 1, sizeof(char*));
+	while (tok == NULL)
+	{
+		n_args++;
+		tok = strtok(NULL, " \n");
+	}
+
+	args = calloc(n_args + 1, sizeof(char*));
 
 	if (!args)
 	{
 		return (0);
 	}
-    
-    for (i = 0; tok != NULL; i++)
-    {
+
+	for (i = 0; tok != NULL; i++)
+	{
 		args[i] = calloc(strlen(tok), sizeof(char));
 
 		if (!args[i])
@@ -37,41 +37,40 @@ char **extract_args(char *tok)
 		}
 
 		strcpy(args[i], tok);
-        
-        tok = strtok(NULL, " \n");
-    }
 
-    return (args);
+		tok = strtok(NULL, " \n");
+	}
+
+	return (args);
 }
 
 
 void execute(char *args[], char *filename)
 {
-  pid_t pid;
-  int status;
+	pid_t pid;
+	int status;
 
-  pid = fork();
-  if (pid == 0) 
-  {
-
-    if (execve(args[0], args, NULL) == -1) 
+	pid = fork();
+	if (pid == 0) 
 	{
-      perror(filename);
-    }
-    exit(EXIT_FAILURE);
-  }
 
-  else if (pid < 0) 
-  {
-    perror(filename);
-  }
+		if (execve(args[0], args, NULL) == -1) 
+		{
+			perror(filename);
+		}
+		exit(EXIT_FAILURE);
+	}
 
-  else
-  {
-
-    do 
+	else if (pid < 0) 
 	{
-      waitpid(pid, &status, WUNTRACED);
-    } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-  }
+		perror(filename);
+	}
+
+	else
+	{
+		do 
+		{
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
 }
