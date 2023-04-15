@@ -1,12 +1,12 @@
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-
-#ifndef MAIN_H
-#define MAIN_H
 
 char **extract_args(char *tok);
 void execute(char *args[], char *filename);
