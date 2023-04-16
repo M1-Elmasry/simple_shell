@@ -2,49 +2,45 @@
 
 char **extract_args(char *tok)
 {
-	int i, n_args = 0;
-	char **args = NULL;
-
-	if (!tok)
-	{
-		return (0);
-	}
-
-	while (tok == NULL)
-	{
-		n_args++;
-		tok = strtok(NULL, " \n");
-	}
-
-	args = calloc(n_args + 1, sizeof(char*));
+	int buffer_size = 8, i = 0;
+	char **args = malloc((buffer_size + 1) * sizeof(char*));
 
 	if (!args)
 	{
-		return (0);
+		perror("allocation failed");
+		exit(EXIT_FAILURE);
 	}
 
-	for (i = 0; tok != NULL; i++)
+	while (tok != NULL)
 	{
-		args[i] = calloc(strlen(tok), sizeof(char));
-
-		if (!args[i])
+		if (i >= buffer_size)
 		{
-			return (0);
+			buffer_size *= 2;
+			args = realloc(args, (buffer_size + 1) * sizeof(char*));
+			if (!args)
+			{
+				perror("allocation failed 1");
+				exit(EXIT_FAILURE);
+			}
 		}
+			args[i] = tok;
+			++i;
 
-		strcpy(args[i], tok);
-
-		tok = strtok(NULL, " \n");
+			tok = strtok(NULL, " \n");
 	}
+
+	args[i] = NULL;
 
 	return (args);
 }
-
 
 void execute(char *args[], char *filename)
 {
 	pid_t pid;
 	int status;
+
+	if (!args)
+		exit(EXIT_FAILURE);
 
 	pid = fork();
 	if (pid == 0) 
