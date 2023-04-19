@@ -1,18 +1,14 @@
 #include "main.h"
 
 
-int main(int ac, char **av, char **env)
+int main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env __attribute__((unused)))
 {
-	int chars, i;
+	int chars;
 	size_t buff_size = 0;
-	char *prompt = "=>> ";
 	char *buffer = NULL;
-	char *tok;
+	char *prompt = "=>> ";
+	char *tok, *path;
 	char **tokens;
-	builtin_funcs cmds[] = {
-		{"help", &sh_help}, {"cd", &sh_cd},
-		{"exit", &sh_exit},{"env", &sh_env}
-	};
 
 	while (1)
 	{
@@ -26,20 +22,13 @@ int main(int ac, char **av, char **env)
 		}
 
 		tok = strtok(buffer , " \n");
+		tokens = extract_args(buffer, " \n");
 
-		tokens = extract_args(tok);
+		path = search_cmd(tokens[0]);
+		execute(path, tokens, av[0]);
 
-		/* executing the builtin commands */
-/*		for (i = 0; i < sizeof(cmds) / sizeof(cmds[0]); i++)
-		{
-			if (tokens[0] == cmds[i][0])
-			{
-				cmds[i][1](tokens);
-			}
-		}
-*/
-		execute(tokens, av[0]);
 	}
-	return 0;
+
+	return (0);
 }
 
