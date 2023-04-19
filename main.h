@@ -9,8 +9,10 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+
 /* X for owner or group or user */
 #define EXEC 0b1001001 
+
 
 char **extract_args(char *tok, char *delim);
 int execute(char *cmd, char *args[], char *filename);
