@@ -1,6 +1,6 @@
 #include "main.h"
 
-char **extract_args(char *tok)
+char **extract_args(char *tok, char *delim)
 {
 	int buffer_size = 8, i = 0;
 	char **args = malloc((buffer_size + 1) * sizeof(char*));
@@ -23,10 +23,10 @@ char **extract_args(char *tok)
 				exit(EXIT_FAILURE);
 			}
 		}
-			args[i] = tok;
-			++i;
+		args[i] = tok;
+		++i;
 
-			tok = strtok(NULL, " \n");
+		tok = strtok(NULL, delim);
 	}
 
 	args[i] = NULL;
@@ -34,35 +34,5 @@ char **extract_args(char *tok)
 	return (args);
 }
 
-void execute(char *args[], char *filename)
-{
-	pid_t pid;
-	int status;
 
-	if (!args)
-		exit(EXIT_FAILURE);
 
-	pid = fork();
-	if (pid == 0) 
-	{
-
-		if (execve(args[0], args, NULL) == -1) 
-		{
-			perror(filename);
-		}
-		exit(EXIT_FAILURE);
-	}
-
-	else if (pid < 0) 
-	{
-		perror(filename);
-	}
-
-	else
-	{
-		do 
-		{
-			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
-}
