@@ -7,9 +7,14 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
-char **extract_args(char *tok);
-void execute(char *args[], char *filename);
+/* X for owner or group or user */
+#define EXEC 0b1001001 
+
+char **extract_args(char *tok, char *delim);
+int execute(char *cmd, char *args[], char *filename);
+char *search_cmd(char *cmd);
 int sh_cd(char **args);
 int sh_help(char **args);
 int sh_exit(char **args);
