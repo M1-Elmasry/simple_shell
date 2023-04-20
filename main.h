@@ -13,10 +13,13 @@
 /* X for owner or group or user */
 #define EXEC 0b1001001 
 
+typedef int (*f_ptr)(char **);
+
 
 char **extract_args(char *tok, char *delim);
-int execute(char *cmd, char *args[], char *filename);
+int execute(char *args[], char **argv, char **env);
 char *search_cmd(char *cmd);
+int args_len(char **args);
 int sh_cd(char **args);
 int sh_help(char **args);
 int sh_exit(char **args);
@@ -25,7 +28,7 @@ int sh_env(char **args);
 typedef struct builtins
 {
 	char *command_name;
-	int (*fun)(char **);
+	f_ptr fun;
 
 } builtin_funcs;
 

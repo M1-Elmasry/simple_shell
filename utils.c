@@ -34,5 +34,16 @@ char **extract_args(char *tok, char *delim)
 	return (args);
 }
 
+int args_len(char **args)
+{
+  int i = 0;
+
+  while (args[i])
+  {
+    i++;
+  }
+
+  return (i);
+}
 
 
