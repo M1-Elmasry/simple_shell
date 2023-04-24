@@ -82,21 +82,21 @@ int execute(char *args[], char **argv, char **env)
 	cmd_path = search_cmd(args[0]);
 
 	pid = fork();
-	if (pid == 0) 
+	if (pid == 0)
 	{
-		if (execve(cmd_path, args, NULL) == -1) 
+		if (execve(cmd_path, args, NULL) == -1)
 		{
 			perror(argv[0]);
 		}
 		exit(EXIT_FAILURE);
 	}
-	else if (pid < 0) 
+	else if (pid < 0)
 	{
 		perror(argv[0]);
 	}
 	else
 	{
-		do 
+		do
 		{
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
