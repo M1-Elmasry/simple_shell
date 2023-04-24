@@ -13,7 +13,7 @@ f_ptr is_builtin(char *cmd)
 	{
 		if (!strcmp(cmd, cmds[i].command_name))
 		{
-			return cmds[i].fun;
+			return (cmds[i].fun);
 		}
 	}
 	return (NULL);
@@ -74,7 +74,7 @@ int execute(char *args[], char **argv, char **env)
 		exit(EXIT_FAILURE);
 
 	if (**args == 10)
-		return(0);
+		return (0);
 
 	cmd = is_builtin(args[0]);
 	if (cmd)
