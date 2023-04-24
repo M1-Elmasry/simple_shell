@@ -35,6 +35,12 @@ int sh_exit(char **args)
 	printf("exit done\n");
 	return (0);
 }
+
+/**
+ * sh_env - enviroment variables
+ * @args: arguments
+ * Return: int
+ */
 int sh_env(char **args)
 {
 	printf("env done\n");
