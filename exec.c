@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+ * f_ptr is_builtin - builtin functions
+ * @cmd: commands written by user
+ * Return: NULL
+ */
 
 f_ptr is_builtin(char *cmd)
 {
@@ -96,7 +101,7 @@ int execute(char *args[], char **argv, char **env)
 	}
 	else
 	{
-		do{
+		do {
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
