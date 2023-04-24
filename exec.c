@@ -96,8 +96,7 @@ int execute(char *args[], char **argv, char **env)
 	}
 	else
 	{
-		do
-		{
+		do{
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
