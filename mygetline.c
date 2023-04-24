@@ -1,5 +1,13 @@
 #include "main.h"
 
+/**
+ *my_getline - getline implementation function
+ * @lineptr: pointer to string to store written line
+ * @n: buffer size
+ * @stream: stream of file the data read from
+ * Return: Number of characters of line written
+ */
+
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 {
 	size_t size = 0;
