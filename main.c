@@ -13,14 +13,14 @@ int main(int ac, char **av, char **env)
 	int chars;
 	size_t buff_size = 0;
 	char *buffer = NULL;
-	char *prompt = "=>> ";
+	char *prompt = "User $ ";
 	char *tok;
 	char **tokens;
 
 	while (1)
 	{
 		printf("%s", prompt);
-		chars = getline(&buffer, &buff_size, stdin);
+		chars = my_getline(&buffer, &buff_size, stdin);
 
 		/* handle EOF */
 		if (chars < 0)
