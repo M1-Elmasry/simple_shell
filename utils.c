@@ -6,6 +6,7 @@
  * @delim: deliminations
  * Return: pointer to chars
  */
+
 char **extract_args(char *tok, char *delim)
 {
 	int buffer_size = 8, i = 0;
@@ -40,6 +41,11 @@ char **extract_args(char *tok, char *delim)
 	return (args);
 }
 
+/**
+ * args_len - lenght of argumants
+ * @args: arguments
+ * Return: int
+ */
 int args_len(char **args)
 {
 	int i = 0;
