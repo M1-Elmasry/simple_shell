@@ -12,6 +12,12 @@ int sh_cd(char **args)
 	return (0);
 }
 
+/**
+ * sh_help - help in commands
+ * @args: arguments
+ * Return: int
+ */
+
 int sh_help(char **args)
 {
 	printf("hello from my shell\n");
