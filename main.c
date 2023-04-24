@@ -7,7 +7,7 @@
  *
  */
 
-int main(int ac, char **av , char **env)
+int main(int ac, char **av, char **env)
 {
 	int chars;
 	size_t buff_size = 0;
@@ -27,7 +27,7 @@ int main(int ac, char **av , char **env)
 			return (0);
 		}
 
-		tok = strtok(buffer , " \n");
+		tok = strtok(buffer, " \n");
 
 		tokens = extract_args(buffer, " \n");
 
