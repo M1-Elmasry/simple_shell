@@ -24,6 +24,12 @@ int sh_help(char **args)
 	return (0);
 }
 
+/**
+ * sh_exit - exit terminal
+ * @args: arguments
+ * Return: int
+ */
+
 int sh_exit(char **args)
 {
 	printf("exit done\n");
