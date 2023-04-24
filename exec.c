@@ -74,6 +74,13 @@ char *search_cmd(char *cmd)
 }
 
 
+/**
+ * execute - command execution
+ * @args - arguments written by the user
+ * @argv - arguments
+ * @env - enviroment variables
+ * Return: int
+ */
 int execute(char *args[], char **argv, char **env)
 {
 	pid_t pid;
