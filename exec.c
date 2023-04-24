@@ -24,6 +24,12 @@ f_ptr is_builtin(char *cmd)
 	return (NULL);
 }
 
+/**
+ * search_cmd - command searching in path
+ * @cmd: commands written by user
+ * Return: cmd
+ */
+
 char *search_cmd(char *cmd)
 {
 	int i = 0;
