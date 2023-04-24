@@ -1,10 +1,11 @@
 #include "main.h"
 
-/*
- *
- *
- *
- *
+/**
+ * main - Entry point for shell
+ * @ac: arguments counter
+ * @av: arguments vector
+ * @env: enviroment variables
+ * Return: 0 if success
  */
 
 int main(int ac, char **av, char **env)
