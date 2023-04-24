@@ -15,7 +15,7 @@
 
 typedef int (*f_ptr)(char **);
 
-
+ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 char **extract_args(char *tok, char *delim);
 int execute(char *args[], char **argv, char **env);
 char *search_cmd(char *cmd);
