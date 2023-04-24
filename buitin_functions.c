@@ -1,9 +1,11 @@
 #include "main.h"
+
 /**
- *
- *
- *
+ * sh_cd - change directory
+ * @args: arguments
+ * Return: int
  */
+
 int sh_cd(char **args)
 {
 	printf("cd done\n");
