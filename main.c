@@ -8,18 +8,22 @@
  * Return: 0 if success
  */
 
-int main(int ac, char **av, char **env)
+int main(int ac __attribute__ ((unused)), char **av, char **env)
 {
 	int chars;
 	size_t buff_size = 0;
 	char *buffer = NULL;
-	char *prompt = "User $ ";
-	char *tok;
+	char prompt[4] = "$ ";
 	char **tokens;
+
+	char __attribute__((unused)) *tok;
 
 	while (1)
 	{
-		printf("%s", prompt);
+
+		if (isatty(0))
+			write(1, prompt, 2);
+
 		chars = my_getline(&buffer, &buff_size, stdin);
 
 		/* handle EOF */

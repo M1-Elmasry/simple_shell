@@ -10,25 +10,30 @@
 
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 {
-	size_t size = 0;
+	size_t size = 0, new_size;
 	ssize_t read = 0;
 	char *buffer = NULL;
+	char *new_buffer;
 	int c;
 
 	if (lineptr == NULL || n == NULL || stream == NULL)
 		return (-1);
+
+	signal(SIGTSTP, sigtstphandler);
+	signal(SIGINT, siginthandler);
+
 	buffer = *lineptr;
 	size = *n;
 
 	while ((c = getc(stream)) != EOF)
 	{
-		if (read + 1 > size)
+		if (read + 1 > (ssize_t) size)
 		{
-			size_t new_size = size * 2;
+			new_size = size * 2;
 
-			if (new_size < read + 1)
+			if (((ssize_t) new_size) < read + 1)
 				new_size = read + 1;
-			char *new_buffer = realloc(buffer, new_size);
+			new_buffer = realloc(buffer, new_size);
 
 			if (new_buffer == NULL)
 				return (-1);
