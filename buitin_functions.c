@@ -31,7 +31,7 @@ int sh_cd(char **args,
 	}
 	else if (args_len(args) == 2)
 	{
-		if (chdir(home) == -1)
+		if (chdir(args[1]) == -1)
 		{
 			write(2, argv[0], _strlen(argv[0]));
 			write(2, ": cd: ", 6);
