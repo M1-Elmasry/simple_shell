@@ -14,19 +14,18 @@
 /* used in _getenv */
 extern char **environ;
 
-/**
- * used to put all builtin cmds functions
- * in array without executing it
- */
+
+
+
+/* used to put all builtin cmds functions in array without executing it */
 typedef int (*f_ptr)(char **, char **, char **);
 
 
 /**
- * builtins - contain data of builtin commands
+ * struct builtins - contain data of builtin commands
  * @command_name: commmand_name
  * @fun: pointer to specific builin command function
  */
-/* used in exec.c file */
 typedef struct builtins
 {
 	char *command_name;
@@ -40,19 +39,20 @@ char *_strcpy(char *dest, char *src);
 char *_strncpy(char *dest, char *src, int n);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
+char *_strdup(char *str);
 
 
 /* reimpelemention to builtin functions */
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 char *_realloc_s(char *ptr, unsigned int new_size);
 char *_getenv(char *var_name);
+char *_itoa(int n);
 
 /* utils functions */
 char **extract_args(char *tok, char *delim);
 int args_len(char **args);
 void siginthandler(int n);
 void sigtstphandler(int n);
-
 
 /* builtin commands functions */
 int sh_cd(char **args, char **argv, char **env);

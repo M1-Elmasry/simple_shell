@@ -63,10 +63,11 @@ int args_len(char **args)
  * @n: unused instead of void param to pass from gcc and betty warnings
  * Description: function will do nothing when catch SIGTSTP
  */
-void siginthandler(int n __attribute__((unused)))
+void siginthandler(int n)
 {
 	char new_read[3] = "\n$ ";
 
+	(void)n;
 	write(1, new_read, 3);
 }
 
@@ -75,7 +76,8 @@ void siginthandler(int n __attribute__((unused)))
  * @n: unused instead of void param to pass from gcc and betty warnings
  * Description: function will do nothing when catch SIGTSTP
  */
-void sigtstphandler(int n __attribute__((unused)))
+void sigtstphandler(int n)
 {
- /* do nothing */
+	(void)n;
+	/* do nothing */
 }

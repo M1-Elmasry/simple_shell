@@ -33,7 +33,7 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 
 			if (((ssize_t) new_size) < read + 1)
 				new_size = read + 1;
-			new_buffer = realloc(buffer, new_size);
+			new_buffer = _realloc_s(buffer, new_size);
 
 			if (new_buffer == NULL)
 				return (-1);

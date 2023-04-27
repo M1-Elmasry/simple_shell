@@ -8,19 +8,18 @@
  */
 char *_realloc_s(char *ptr, unsigned int new_size)
 {
-	int i = 0;
 	char *temp_ptr;
 
 	if (!ptr)
 		return (malloc(new_size));
 
-	temp_ptr = ptr;
+	temp_ptr = _strdup(ptr);
 	ptr = malloc(new_size);
 
-	while (temp_ptr[i])
-	{
-		ptr[i] = temp_ptr[i];
-	}
+	if (!ptr)
+		return (malloc(new_size));
+
+	_strcpy(ptr, temp_ptr);
 
 	return (ptr);
 }

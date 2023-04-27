@@ -42,23 +42,23 @@ char *search_cmd(char *cmd)
 		return (0);
 
 	s_paths = _getenv("PATH");
-	s_paths2 = strdup(s_paths);
+	s_paths2 = _strdup(s_paths);
 	tok = strtok(s_paths2, ":");
 	tokens = extract_args(s_paths2, ":");
 
 	while (tokens[i] != NULL)
 	{
-		path = calloc((_strlen(tokens[i]) + _strlen(cmd)) + 2, sizeof(char));
+		path = malloc((_strlen(tokens[i]) + _strlen(cmd) + 3) * sizeof(char));
 
 		if (!path)
 		{
 			perror("allocation failed");
 			exit(EXIT_FAILURE);
 		}
-
 		_strcpy(path, tokens[i]);
 		_strcat(path, "/");
 		_strcat(path, cmd);
+		_strcat(path, "\0");
 
 		if (stat(path, &s) == 0)
 		{
@@ -91,10 +91,8 @@ int execute(char *args[], char **argv, char **env)
 
 	if (!args)
 		exit(EXIT_FAILURE);
-
 	if (**args == 10)
 		return (0);
-
 	cmd_function = is_builtin(args[0]);
 	if (cmd_function)
 		return (cmd_function(args, argv, env));
@@ -105,7 +103,12 @@ int execute(char *args[], char **argv, char **env)
 	{
 		if (execve(cmd_path, args, NULL) == -1)
 		{
-			perror(argv[0]);
+			write(2, argv[0], _strlen(argv[0]));
+			write(2, ": ", 2);
+			write(2, _itoa(1), 1);
+			write(2, ": ", 2);
+			write(2, cmd_path, _strlen(cmd_path));
+			write(2, ": not found\n", 13);
 		}
 		exit(EXIT_FAILURE);
 	}
