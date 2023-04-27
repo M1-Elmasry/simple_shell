@@ -23,7 +23,7 @@ char **extract_args(char *tok, char *delim)
 		if (i >= buffer_s)
 		{
 			buffer_s *= 2;
-			args = (char **)_realloc_s((char *)args, (buffer_s + 1) * sizeof(char *));
+			args = realloc(args, (buffer_s + 1) * sizeof(char *));
 			if (!args)
 			{
 				perror("allocation failed 1");
