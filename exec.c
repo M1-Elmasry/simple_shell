@@ -101,7 +101,7 @@ int execute(char *args[], char **argv, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(cmd_path, args, NULL) == -1)
+		if (execve(cmd_path, args, env) == -1)
 		{
 			write(2, argv[0], _strlen(argv[0]));
 			write(2, ": ", 2);
