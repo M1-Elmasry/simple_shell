@@ -62,32 +62,19 @@ char *_strcpy(char *dest, char *src)
  * @src: second string
  * Return: @src concatenated with @dest
  */
+
 char *_strcat(char *dest, char *src)
 {
-	int i = 0, dest_len = 0;
+	size_t dest_len = strlen(dest);
+	size_t i;
 
-	if (!dest)
-		return (0);
+	for (i = 0 ; src[i] != '\0' ; i++)
+		dest[dest_len + i] = src[i];
+	dest[dest_len + i] = '\0';
 
-	while (dest[dest_len] != '\0')
-	{
-		dest_len++;
-	}
-
-	while (1)
-	{
-		if (src[i] != '\0')
-		{
-			dest[dest_len + i] = src[i];
-		}
-		else
-		{
-			break;
-		}
-		i++;
-	}
 	return (dest);
 }
+
 
 /**
  * _strncpy - copy string
@@ -96,17 +83,11 @@ char *_strcat(char *dest, char *src)
  * @n: something
  * Return: dest
  */
-char *_strncpy(char *dest, char *src, int n)
+
+
+char *_strncpy(char *dest, const char *src, size_t n)
 {
-	int len1 = 0;
-	int len2 = 0;
-	int i;
-
-	while (src[len1] != '\0')
-		len1++;
-
-	while (dest[len2] != '\0')
-		len2++;
+	size_t i;
 
 	for (i = 0; i < n && src[i] != '\0'; i++)
 		dest[i] = src[i];

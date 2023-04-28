@@ -36,7 +36,7 @@ typedef struct builtins
 /* reimpelemntation to builtin strings functions */
 int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
-char *_strncpy(char *dest, char *src, int n);
+char *_strncpy(char *dest, const char *src, size_t n);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);

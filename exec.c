@@ -33,9 +33,7 @@ f_ptr is_builtin(char *cmd)
 char *search_cmd(char *cmd)
 {
 	int i = 0;
-	char *path, *s_paths;
-	char *s_paths2, __attribute__ ((unused)) *tok;
-	char **tokens;
+	char *path, *s_paths, *s_paths2, __attribute__ ((unused)) *tok, **tokens;
 	struct stat s;
 
 	if (!cmd)
@@ -45,21 +43,19 @@ char *search_cmd(char *cmd)
 	s_paths2 = _strdup(s_paths);
 	tok = strtok(s_paths2, ":");
 	tokens = extract_args(s_paths2, ":");
-
 	while (tokens[i] != NULL)
 	{
 		path = malloc((_strlen(tokens[i]) + _strlen(cmd) + 3) * sizeof(char));
-
 		if (!path)
 		{
 			perror("allocation failed");
+			free(path);
 			exit(EXIT_FAILURE);
 		}
 		_strcpy(path, tokens[i]);
 		_strcat(path, "/");
 		_strcat(path, cmd);
 		_strcat(path, "\0");
-
 		if (stat(path, &s) == 0)
 		{
 			if ((s.st_mode & X_OK) > 0)
@@ -70,7 +66,10 @@ char *search_cmd(char *cmd)
 			++i;
 		}
 		++i;
+		free(path);
 	}
+	free(s_paths2);
+	free(tokens);
 	return (cmd);
 }
 
@@ -86,18 +85,18 @@ int execute(char *args[], char **argv, char **env)
 {
 	pid_t pid;
 	int status;
-	char *cmd_path;
+	char *cmd_path, *varitoa = _itoa(1);
 	f_ptr cmd_function;
 
 	if (!args)
 		exit(EXIT_FAILURE);
 	if (**args == 10)
 		return (0);
+
 	cmd_function = is_builtin(args[0]);
 	if (cmd_function)
 		return (cmd_function(args, argv, env));
 	cmd_path = search_cmd(args[0]);
-
 	pid = fork();
 	if (pid == 0)
 	{
@@ -105,22 +104,22 @@ int execute(char *args[], char **argv, char **env)
 		{
 			write(2, argv[0], _strlen(argv[0]));
 			write(2, ": ", 2);
-			write(2, _itoa(1), 1);
+			write(2, varitoa, 1);
 			write(2, ": ", 2);
 			write(2, cmd_path, _strlen(cmd_path));
 			write(2, ": not found\n", 13);
+			free(varitoa);
 		}
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-	{
 		perror(argv[0]);
-	}
 	else
 	{
 		do {
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+	free(varitoa);
 	return (0);
 }

@@ -15,6 +15,7 @@ char **extract_args(char *tok, char *delim)
 	if (!args)
 	{
 		perror("allocation failed");
+		free(args);
 		exit(EXIT_FAILURE);
 	}
 
@@ -27,6 +28,7 @@ char **extract_args(char *tok, char *delim)
 			if (!args)
 			{
 				perror("allocation failed 1");
+				free(args);
 				exit(EXIT_FAILURE);
 			}
 		}

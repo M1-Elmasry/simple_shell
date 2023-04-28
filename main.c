@@ -13,7 +13,7 @@ int main(int ac, char **av, char **env)
 	int chars;
 	size_t buff_size = 0;
 	char *buffer = NULL;
-	char prompt[4] = "$ ";
+	char prompt[2] = "$ ";
 	char **tokens;
 
 	char __attribute__((unused)) *tok;
@@ -26,11 +26,12 @@ int main(int ac, char **av, char **env)
 		if (isatty(0))
 			write(1, prompt, 2);
 
-		chars = my_getline(&buffer, &buff_size, stdin);
+		chars = getline(&buffer, &buff_size, stdin);
 
 		/* handle EOF */
 		if (chars < 0)
 		{
+			free(buffer);
 			return (0);
 		}
 
@@ -40,8 +41,9 @@ int main(int ac, char **av, char **env)
 
 		execute(tokens, av, env);
 
+		free(tokens);
 	}
-
+	free(tokens);
+	free(buffer);
 	return (0);
 }
-
