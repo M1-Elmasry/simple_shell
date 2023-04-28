@@ -7,65 +7,47 @@
  * Return:0
  */
 
-
 int main(int ac, char **av)
 {
 	int i = 0, j, token_num = 0;
-	char *delim = " \n\t", *token; //*prompt = "cisfun$ " *token;
+	char *delim = " \n\t", *token;
 	char *command = NULL, *command_copy = NULL;
-	char *user = getenv("USER");
 	size_t n = 0;
 	ssize_t charnum;
 	char **tokens;
-	user = strcat(user, "$ ");
 
 	while (1)
 	{
-	write(STDOUT_FILENO, user, strlen(user));
-	charnum = getline(&command, &n, stdin);
+		write(STDOUT_FILENO, "$ ", 2);
+		charnum = getline(&command, &n, stdin);
 
-	if (charnum == -1 || charnum == EOF)
-	{
-		free(command);
-		exit(0);
+		if (charnum == -1 || charnum == EOF)
+		{
+			free(command);
+			exit(0);
+		}
+
+		command[strcspn(command, "\n")] = '\0';
+		command_copy = malloc(sizeof(char) * (charnum));
+		if (command_copy == NULL)
+		{
+			perror("shell: memory allocation error");
+			return (-1);
+		}
+
+		strcpy(command_copy, command);
+		token_num = token_counter(command, delim);
+		av = parsing(command_copy, delim, token_num);
+		free(command_copy);
+		builtin_execute(av);
+
+		for (i = 0; av[i] != NULL; i++)
+		{
+			free(av[i]);
+		}
+		free(av);
 	}
-
-	command[strcspn(command, "\n")] = '\0';
-	command_copy = malloc(sizeof(char) * charnum);
-	if (command_copy == NULL)
-	{
-		perror("shell: memory allocation error");
-		return (-1);
-	}
-	strcpy(command_copy, command);
-
-	/* ------------ PARSING ----------------------*/
-
-	token = strtok(command, delim);
-
-	while (token != NULL)
-	{
-		token_num++;
-		token = strtok(NULL, delim);
-	}
-	token_num++;
-
-	av = malloc(sizeof(char *) * token_num);
-	token = strtok(command_copy, delim);
-
-	for (i = 0 ; token != NULL ; i++)
-	{
-		av[i] = malloc(sizeof(char) * strlen(token));
-		strcpy(av[i], token);
-		token = strtok(NULL, delim);
-	}
-	av[i] = NULL;
-
-	
-	/* -------------PARSING ---------------------*/
-	builtin_execute(av);
-}
-	free(command);
+	free(av);
 	return (0);
 }
 
