@@ -4,6 +4,7 @@
  * token_counter - Afunction that counts the number of arguments
  * @command: command entered by the user
  * @delim: delimintion character for tokinization
+ * Return: number consider the number of tokens
  */
 
 int token_counter(char *command, char *delim)

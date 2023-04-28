@@ -7,14 +7,13 @@
  * Return:0
  */
 
-int main(int ac, char **av)
+int main(__attribute__((unused)) int ac, char **av)
 {
-	int i = 0, j, token_num = 0;
-	char *delim = " \n\t", *token;
+	int i = 0, token_num = 0;
+	char *delim = " \n\t";
 	char *command = NULL, *command_copy = NULL;
 	size_t n = 0;
 	ssize_t charnum;
-	char **tokens;
 
 	while (1)
 	{

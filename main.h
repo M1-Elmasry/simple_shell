@@ -9,7 +9,6 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-//char **parsing (char *command, char *command_copy, char *delim, char **av)
 int builtin_execute(char **av);
 int executing(char **av);
 char *path_location(char *command);

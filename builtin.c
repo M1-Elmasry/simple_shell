@@ -23,18 +23,21 @@ int shell_cd(char **av)
  * Return: int
  */
 
-int shell_help(char **av)
+int shell_help(__attribute__((unused))char **av)
 {
 	char *builtin[] = {
-		"cd", "help", "exit"
+		"cd",
+		"help",
+		"exit"
 	};
+
 	int n  = 3;
 	int i = 0;
 
 	for (i = 0 ; i < n ; i++)
-	{
 		printf(" %s\n", builtin[i]);
-	}
+
+	return (0);
 }
 
 /**
@@ -45,5 +48,6 @@ int shell_help(char **av)
 
 int shell_exit(char **av)
 {
+	(void)av;
 	exit(EXIT_SUCCESS);
 }

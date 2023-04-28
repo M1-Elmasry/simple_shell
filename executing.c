@@ -7,8 +7,8 @@
  */
 
 int executing(char **av)
-	{
-	pid_t pid, wpid;
+{
+	pid_t pid;
 	int status;
 	char *command = NULL, *real_command = NULL;
 
@@ -21,9 +21,13 @@ int executing(char **av)
 
 		if (pid == 0)
 		{
-		if (execve(real_command, av, NULL) == -1)
-			perror("Error:");
-		exit(EXIT_FAILURE);
+
+			if (execve(real_command, av, NULL) == -1)
+			{
+				perror("Error:");
+				exit(EXIT_FAILURE);
+			}
+
 		}
 
 		else if (pid < 0)
@@ -32,9 +36,11 @@ int executing(char **av)
 		else
 		{
 			do {
-				wpid = waitpid(pid, &status, WUNTRACED);
+				waitpid(pid, &status, WUNTRACED);
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		}
-	return (1);
+		return (1);
 	}
+
+	return (0);
 }
