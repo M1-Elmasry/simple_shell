@@ -17,15 +17,15 @@ int main(__attribute__((unused)) int ac, char **av)
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "$ ", 2);
-		charnum = getline(&command, &n, stdin);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
 
+		charnum = getline(&command, &n, stdin);
 		if (charnum == -1 || charnum == EOF)
 		{
 			free(command);
 			exit(0);
 		}
-
 		command[strcspn(command, "\n")] = '\0';
 		command_copy = malloc(sizeof(char) * (charnum));
 		if (command_copy == NULL)
