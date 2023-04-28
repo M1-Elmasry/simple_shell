@@ -1,49 +1,71 @@
 #include "main.h"
 
 /**
- * main - Entry point for shell
- * @ac: arguments counter
- * @av: arguments vector
- * @env: enviroment variables
- * Return: 0 if success
+ * main - test simple shell
+ * @ac: int type number
+ * @av: pointer to strings type
+ * Return:0
  */
 
-int main(int ac, char **av, char **env)
+
+int main(int ac, char **av)
 {
-	int chars;
-	size_t buff_size = 0;
-	char *buffer = NULL;
-	char prompt[2] = "$ ";
+	int i = 0, j, token_num = 0;
+	char *delim = " \n\t", *token; //*prompt = "cisfun$ " *token;
+	char *command = NULL, *command_copy = NULL;
+	char *user = getenv("USER");
+	size_t n = 0;
+	ssize_t charnum;
 	char **tokens;
-
-	char __attribute__((unused)) *tok;
-
-	(void)ac;
+	user = strcat(user, "$ ");
 
 	while (1)
 	{
+	write(STDOUT_FILENO, user, strlen(user));
+	charnum = getline(&command, &n, stdin);
 
-		if (isatty(0))
-			write(1, prompt, 2);
-
-		chars = getline(&buffer, &buff_size, stdin);
-
-		/* handle EOF */
-		if (chars < 0)
-		{
-			free(buffer);
-			return (0);
-		}
-
-		tok = strtok(buffer, " \n");
-
-		tokens = extract_args(buffer, " \n");
-
-		execute(tokens, av, env);
-
-		free(tokens);
+	if (charnum == -1 || charnum == EOF)
+	{
+		free(command);
+		exit(0);
 	}
-	free(tokens);
-	free(buffer);
+
+	command[strcspn(command, "\n")] = '\0';
+	command_copy = malloc(sizeof(char) * charnum);
+	if (command_copy == NULL)
+	{
+		perror("shell: memory allocation error");
+		return (-1);
+	}
+	strcpy(command_copy, command);
+
+	/* ------------ PARSING ----------------------*/
+
+	token = strtok(command, delim);
+
+	while (token != NULL)
+	{
+		token_num++;
+		token = strtok(NULL, delim);
+	}
+	token_num++;
+
+	av = malloc(sizeof(char *) * token_num);
+	token = strtok(command_copy, delim);
+
+	for (i = 0 ; token != NULL ; i++)
+	{
+		av[i] = malloc(sizeof(char) * strlen(token));
+		strcpy(av[i], token);
+		token = strtok(NULL, delim);
+	}
+	av[i] = NULL;
+
+	
+	/* -------------PARSING ---------------------*/
+	builtin_execute(av);
+}
+	free(command);
 	return (0);
 }
+
