@@ -17,5 +17,13 @@ int shell_help(char **av);
 int shell_exit(char **av);
 int token_counter(char *command, char *delim);
 char **parsing(char *command_copy, char *delim, int token_num);
+/* Enviroment variables */
+extern char **environ;
+
+/* Demonistrate enviroment variables */
+void newenv(void);
+
+/* free enviroment variables */
+void freeenv(void);
 
 #endif

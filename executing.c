@@ -22,7 +22,7 @@ int executing(char **av)
 		if (pid == 0)
 		{
 
-			if (execve(real_command, av, NULL) == -1)
+			if (execve(real_command, av, environ) == -1)
 			{
 				perror("Error:");
 				exit(EXIT_FAILURE);

@@ -14,7 +14,7 @@ int main(__attribute__((unused)) int ac, char **av)
 	char *command = NULL, *command_copy = NULL;
 	size_t n = 0;
 	ssize_t charnum;
-
+	
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
