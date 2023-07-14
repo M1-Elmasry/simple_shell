@@ -2,28 +2,17 @@
 #define MAIN_H
 
 #include <stdio.h>
-#include <string.h>
+#include <stddef.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/stat.h>
+#include <string.h>
 
-int builtin_execute(char **av);
-int executing(char **av);
-char *path_location(char *command);
-int shell_cd(char **av);
-int shell_help(char **av);
-int shell_exit(char **av);
-int token_counter(char *command, char *delim);
-char **parsing(char *command_copy, char *delim, int token_num);
-/* Enviroment variables */
-extern char **environ;
+int execute(char **tokens, char *argv[], char **env);
+int tokens_num(char *buffer, char *delim);
+char **parse(char *buffer, char *delim);
 
-/* Demonistrate enviroment variables */
-void newenv(void);
-
-/* free enviroment variables */
-void freeenv(void);
 
 #endif
+
