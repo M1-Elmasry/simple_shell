@@ -27,8 +27,13 @@ int main(__attribute__((unused)) int argc, char *argv[], char *envp[])
 		{
 			break;
 		}
+
 		tokens = parse(buffer, " \n");
-		execute(tokens, argv, envp);
+		if (tokens[0] != NULL)
+		{
+			tokens[0] = search(tokens[0]);
+			execute(tokens, argv, envp);
+		}
 	}
 
 	free(buffer);
