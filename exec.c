@@ -20,14 +20,23 @@ int execute(char **tokens, char *argv[], char **env)
 		{
 			if (execve(tokens[0], tokens, env) == -1)
 			{
-				perror(argv[0]);
+				write(STDERR_FILENO, argv[0], strlen(argv[0]));
+				write(STDERR_FILENO, ": ", 2);
+				write(STDERR_FILENO, "line 1: ", 8);
+				perror(tokens[0]);
 				exit(EXIT_FAILURE);
 			}
 
 		}
 
 		else if (pid < 0)
-			perror(argv[0]);
+		{
+			write(STDERR_FILENO, argv[0], strlen(argv[0]));
+			write(STDERR_FILENO, ": ", 2);
+			write(STDERR_FILENO, "line 1: ", 8);
+			perror(tokens[0]);
+			exit(EXIT_FAILURE);
+		}
 
 		else
 		{
