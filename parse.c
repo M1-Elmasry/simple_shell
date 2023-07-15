@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * count_tokens - Afunction that counts the number of arguments
+ * count_tokens - counts the number of elements in buffer
  * @buffer: command entered by the user
  * @delim: delimintion character for tokinization
  * Return: number of tokens
@@ -37,13 +37,18 @@ char **parse(char *buffer, char *delim)
 {
 	int i = 0;
 	int tokens_num = count_tokens(buffer, delim);
-	char *token, **tokens;
+	char *token, **tokens, *buffer_copy;
+
+	if (!buffer)
+		return (NULL);
 
 	tokens = malloc(sizeof(char *) * (tokens_num));
 	if (tokens == NULL)
 		return (NULL);
 
-	token = strtok(buffer, delim);
+	buffer_copy = strdup(buffer);
+
+	token = strtok(buffer_copy, delim);
 
 	while (token != NULL)
 	{
@@ -53,25 +58,6 @@ char **parse(char *buffer, char *delim)
 	}
 	tokens[i] = NULL;
 
+	free(buffer_copy);
 	return (tokens);
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
