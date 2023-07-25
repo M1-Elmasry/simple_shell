@@ -7,7 +7,7 @@
  */
 char *search(char *command)
 {
-	int i, j;
+	int i;
 	char *PATH = NULL;
 	char **PATH_tokens = NULL;
 	char *test_path = NULL;
@@ -26,14 +26,15 @@ char *search(char *command)
 		strcat(test_path, PATH_tokens[i]);
 		strcat(test_path, "/");
 		strcat(test_path, command);
+
 		if (stat(test_path, &buffer) == 0)
 		{
-			for (j = 0; PATH_tokens[j] != NULL; j++)
-				free(PATH_tokens[j]);
-			free(PATH_tokens);
+			free_dptr(PATH_tokens);
+			free(command);
 			return (test_path);
 		}
+		free(test_path);
 	}
-	free(test_path);
+	free_dptr(PATH_tokens);
 	return (command);
 }
