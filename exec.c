@@ -11,41 +11,40 @@ int execute(char **tokens, char *argv[], char **env)
 {
 	pid_t pid;
 	int status;
+	int (*builtin_func)(char **, char **, char **);
 
 	if (tokens)
 	{
+		builtin_func = is_builtin(tokens[0]);
+		if (builtin_func)
+		{
+			status = exec_builtin(builtin_func, tokens, env, argv);
+			return (status);
+		}
+
 		pid = fork();
 
 		if (pid == 0)
 		{
 			if (execve(tokens[0], tokens, env) == -1)
 			{
-				write(STDERR_FILENO, argv[0], strlen(argv[0]));
-				write(STDERR_FILENO, ": ", 2);
-				write(STDERR_FILENO, "line 1: ", 8);
+				print_error(argv[0]);
 				perror(tokens[0]);
-				exit(EXIT_FAILURE);
+				exit(127);
 			}
-
 		}
-
 		else if (pid < 0)
 		{
-			write(STDERR_FILENO, argv[0], strlen(argv[0]));
-			write(STDERR_FILENO, ": ", 2);
-			write(STDERR_FILENO, "line 1: ", 8);
+			print_error(argv[0]);
 			perror(tokens[0]);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
-
 		else
 		{
 			do {
 				waitpid(pid, &status, WUNTRACED);
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		}
-		return (1);
 	}
-
-	return (0);
+	return (status);
 }
