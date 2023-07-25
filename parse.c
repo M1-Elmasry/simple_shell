@@ -21,7 +21,6 @@ int count_tokens(char *buffer, char *delim)
 	}
 	num++;
 
-	free(token);
 	free(buffer_copy);
 	return (num);
 }
@@ -52,6 +51,10 @@ char **parse(char *buffer, char *delim)
 
 	while (token != NULL)
 	{
+		/* stop append tokens when see # (after space) */
+		if (token[0] == '#')
+			break;
+
 		tokens[i] = strdup(token);
 		token = strtok(NULL, delim);
 		i++;
