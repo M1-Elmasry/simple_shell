@@ -3,13 +3,16 @@
 /**
  * print_error - prints entire error messanges
  * @program_name: name of this shell (argv[0])
+ * @msg: massage to print with error
  * Return: void
  */
-void print_error(char *program_name)
+void print_error(char *program_name, char *msg)
 {
 	write(STDERR_FILENO, program_name, strlen(program_name));
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, "line 1: ", 8);
+	if (msg != NULL)
+		write(STDERR_FILENO, msg, strlen(msg));
 
 }
 
