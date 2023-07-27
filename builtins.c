@@ -71,7 +71,7 @@ int handle_exit_args(char **tokens, char **argv)
 
 	if (tokens[2]) /* if args > 2 */
 	{
-		print_error(argv[0]);
+		print_error(argv[0], NULL);
 		write(STDERR_FILENO, "exit: too many arguments\n", 25);
 		return (1); /* will exit with this status */
 	}
@@ -79,7 +79,7 @@ int handle_exit_args(char **tokens, char **argv)
 	n = _atoi(tokens[1]);
 	if (n == -1)
 	{
-		print_error(argv[0]);
+		print_error(argv[0], NULL);
 		write(STDERR_FILENO, "exit: ", 6);
 		write(STDERR_FILENO, tokens[1], strlen(tokens[1]));
 		write(STDERR_FILENO, ": numeric argument required\n", 28);
@@ -120,7 +120,6 @@ int builtin_cd(char **tokens, __attribute((unused)) char **env, char **argv)
 
 	cwd = getcwd(cwd, 512);
 	HOME = getenv("HOME");
-
 	if (!tokens[1])
 	{
 		setenv("OLDPWD", cwd, 1);
@@ -130,11 +129,7 @@ int builtin_cd(char **tokens, __attribute((unused)) char **env, char **argv)
 	{
 		OLDPWD = getenv("OLDPWD");
 		if (OLDPWD == NULL)
-		{
-			print_error(argv[0]);
-			write(STDERR_FILENO, "cd: ", 4);
-			write(STDERR_FILENO, "OLDPWD not set\n", 15);
-		}
+			print_error(argv[0], "cd: OLDPWD not set\n");
 		else
 		{
 			setenv("OLDPWD", getcwd(cwd, 512), 1);
@@ -148,17 +143,12 @@ int builtin_cd(char **tokens, __attribute((unused)) char **env, char **argv)
 			setenv("OLDPWD", OLDPWD, 1);
 		else
 		{
-			print_error(argv[0]);
-			write(STDERR_FILENO, "cd: ", 4);
+			print_error(argv[0], "cd: ");
 			perror(tokens[1]);
 		}
 	}
 	else
-	{
-		print_error(argv[0]);
-		write(STDERR_FILENO, "cd: ", 4);
-		write(STDERR_FILENO, "too many arguments\n", 19);
-	}
+		print_error(argv[0], "cd: too many arguments\n");
 	free(cwd);
 	return (0);
 }
