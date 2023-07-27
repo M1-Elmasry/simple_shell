@@ -28,14 +28,14 @@ int execute(char **tokens, char *argv[], char **env)
 		{
 			if (execve(tokens[0], tokens, env) == -1)
 			{
-				print_error(argv[0]);
+				print_error(argv[0], NULL);
 				perror(tokens[0]);
 				exit(127);
 			}
 		}
 		else if (pid < 0)
 		{
-			print_error(argv[0]);
+			print_error(argv[0], NULL);
 			perror(tokens[0]);
 			exit(127);
 		}
