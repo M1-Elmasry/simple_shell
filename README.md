@@ -1,4 +1,4 @@
-# Simple Unix Shell
+# Simple Linux Shell
 
 ## Overview
 
